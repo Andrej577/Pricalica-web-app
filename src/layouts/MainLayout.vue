@@ -26,7 +26,7 @@
           <q-item-section>Vaše recenzije</q-item-section>
         </q-item>
 
-        <q-item clickable v-ripple to="/transactions">
+        <q-item clickable v-ripple to="/transakcije">
           <q-item-section avatar>
             <q-icon name="receipt_long" />
           </q-item-section>
