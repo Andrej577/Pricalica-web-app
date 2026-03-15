@@ -19,7 +19,7 @@
           <q-item-section>Početna</q-item-section>
         </q-item>
 
-        <q-item clickable v-ripple to="/reviews">
+        <q-item clickable v-ripple to="/recenzije">
           <q-item-section avatar>
             <q-icon name="rate_review" />
           </q-item-section>
