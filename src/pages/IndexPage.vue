@@ -57,32 +57,12 @@
 </template>
 
 <script setup>
+import { computed, ref, onMounted } from 'vue'
+import axios from 'axios'
 import { API_BASE_URL } from 'src/config/api'
-import { computed, ref } from 'vue'
 
 const search = ref('')
-
-const continueListening = ref([
-  { id: 1, title: 'Item 1123' },
-  { id: 2, title: 'Item 2' },
-  { id: 3, title: 'Item 3' },
-  { id: 4, title: 'Item 4' },
-])
-
-const library = ref([
-  { id: 1, title: 'Book 1' },
-  { id: 2, title: 'Book 2' },
-  { id: 3, title: 'Book 3' },
-  { id: 4, title: 'Book 4' },
-  { id: 5, title: 'Book 5' },
-  { id: 6, title: 'Book 6' },
-  { id: 7, title: 'Book 7' },
-  { id: 8, title: 'Book 8' },
-  { id: 9, title: 'Book 9' },
-  { id: 10, title: 'Book 10' },
-  { id: 11, title: 'Book 11' },
-  { id: 12, title: 'Book 12' },
-])
+const library = ref([])
 
 const filteredLibrary = computed(() => {
   if (!search.value.trim()) return library.value
@@ -92,27 +72,30 @@ const filteredLibrary = computed(() => {
   )
 })
 
-async function fetchFromApi(endpoint, options = {}) {
+async function GetSveKnjige() {
   try {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      method: options.method || 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(options.headers || {}),
-      },
-      body: options.body ? JSON.stringify(options.body) : undefined,
-    })
+    const res = await axios.get(`${API_BASE_URL}/knjige`)
 
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status} ${response.statusText}`)
+    if (res.status !== 200) {
+      throw new Error('Failed to fetch books')
     }
 
-    return await response.json()
+    library.value = res.data.map((item) => ({
+      id: item.knjiga_id,
+      title: item.naslov,
+      opis: item.opis,
+      trajanje_min: item.trajanje_min,
+      poveznica: item.poveznica,
+      prosjecna_ocjena: item.prosjecna_ocjena,
+    }))
   } catch (error) {
-    console.error('Fetch error:', error)
-    throw error
+    console.error('Error fetching books:', error)
   }
 }
+
+onMounted(() => {
+  GetSveKnjige()
+})
 </script>
 
 <style scoped>
