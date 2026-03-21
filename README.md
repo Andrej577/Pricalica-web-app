@@ -1,43 +1,43 @@
-# PricalicaWebApp (pricalicawebapp)
+# PricalicaWebApp
 
-Projekt pricalica
+Upute za pokretanje aplikacije lokalno i kroz Docker.
 
-## Install the dependencies
+## Pokretanje aplikacije lokalno
+
+Za pokretanje aplikacije direktno s računala koristi Quasar development server.
+
+### Instalacija ovisnosti
 
 ```bash
-yarn
-# or
 npm install
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+### Pokretanje aplikacije
 
 ```bash
 quasar dev
 ```
 
-### Lint the files
+Aplikacija će nakon toga biti dostupna na development portu koji Quasar prijavi u terminalu.
+
+## Pokretanje aplikacije kroz Docker
+
+Aplikacija se može pokrenuti i kroz Docker. U tom slučaju je projekt bindan na Docker container, što znači da se lokalne promjene u kodu odmah vide unutar aplikacije bez ponovnog pokretanja cijelog Docker okruženja.
+
+### Pokretanje Docker okruženja
 
 ```bash
-yarn lint
-# or
-npm run lint
+docker compose up --build
 ```
 
-### Format the files
+### Gašenje Docker okruženja
 
 ```bash
-yarn format
-# or
-npm run format
+docker compose down
 ```
 
-### Build the app for production
+## Napomena za development kroz Docker
 
-```bash
-quasar build
-```
+Docker setup koristi bind mount na projekt direktorij. Zbog toga se svaka promjena u lokalnom source kodu automatski reflektira unutar containera, a aplikacija prikazuje promjene bez potrebe za ručnim restartanjem cijelog Docker okruženja.
 
-### Customize the configuration
-
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+Ako je uključen Quasar/Vite hot reload, promjene će biti vidljive odmah nakon spremanja datoteka.

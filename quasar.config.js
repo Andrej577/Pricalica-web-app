@@ -56,7 +56,19 @@ export default defineConfig((ctx) => {
 
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
+      extendViteConf(viteConf) {
+        viteConf.server ??= {}
+        viteConf.server.watch = {
+          usePolling: true,
+          interval: 100,
+        }
 
+        viteConf.server.hmr = {
+          host: 'localhost',
+          protocol: 'ws',
+          clientPort: 9000,
+        }
+      },
       vitePlugins: [
         [
           '@intlify/unplugin-vue-i18n/vite',
@@ -92,6 +104,8 @@ export default defineConfig((ctx) => {
     devServer: {
       // https: true,
       open: false, // opens browser window automatically
+      host: '0.0.0.0',
+      port: 9000,
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework
