@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-md">
+  <q-page class="q-pa-md flex justify-center">
     <div class="page-wrapper">
       <q-input v-model="search" outlined dense placeholder="Pretraži knjigu" class="q-mb-md">
         <template #prepend>
@@ -117,7 +117,7 @@ async function fetchFromApi(endpoint, options = {}) {
 
 <style scoped>
 .page-wrapper {
-  max-width: 1100px;
+  width: 100%;
 }
 
 .book-grid {
