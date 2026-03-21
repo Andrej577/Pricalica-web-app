@@ -17,11 +17,12 @@
         <q-card-section>
           <div class="book-grid">
             <q-card
-              v-for="item in continueListening"
+              v-for="item in filteredLibrary"
               :key="item.id"
               flat
               bordered
-              class="book-card"
+              class="book-card cursor-pointer"
+              @click="otvoriDetaljeKnjige(item.id)"
             >
               <div class="book-cover-placeholder" />
               <q-card-section class="q-pa-sm">
@@ -41,7 +42,14 @@
 
         <q-card-section>
           <div class="book-grid">
-            <q-card v-for="item in filteredLibrary" :key="item.id" flat bordered class="book-card">
+            <q-card
+              v-for="item in continueListening"
+              :key="item.id"
+              flat
+              bordered
+              class="book-card cursor-pointer"
+              @click="otvoriDetaljeKnjige(item.id)"
+            >
               <div class="book-cover-placeholder" />
               <q-card-section class="q-pa-sm">
                 <div class="text-caption text-center ellipsis">
@@ -60,6 +68,9 @@
 import { computed, ref, onMounted } from 'vue'
 import axios from 'axios'
 import { API_BASE_URL } from 'src/config/api'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const search = ref('')
 const library = ref([])
@@ -71,6 +82,10 @@ const filteredLibrary = computed(() => {
     item.title.toLowerCase().includes(search.value.toLowerCase()),
   )
 })
+
+function otvoriDetaljeKnjige(id) {
+  router.push(`/knjige/${id}`)
+}
 
 async function GetSveKnjige() {
   try {
