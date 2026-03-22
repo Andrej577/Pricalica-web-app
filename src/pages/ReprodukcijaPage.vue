@@ -73,7 +73,19 @@ const currentTime = ref(0)
 const duration = ref(0)
 
 const naslovKnjige = computed(() => knjiga.value.naslov || 'Naslov knjige')
-const audioSrc = computed(() => knjiga.value.poveznica || '')
+const audioSrc = computed(() => {
+  const poveznica = knjiga.value.poveznica?.trim()
+
+  if (!poveznica) {
+    return ''
+  }
+
+  if (poveznica.startsWith('http://') || poveznica.startsWith('https://')) {
+    return poveznica
+  }
+
+  return `http://localhost:5000/stream?file=sample.mp3`
+})
 
 onMounted(() => {
   ucitajKnjigu()
@@ -127,10 +139,11 @@ async function pokreni() {
   }
 
   try {
+    audioRef.value.load()
     await audioRef.value.play()
   } catch (error) {
     console.error('Playback failed', error)
-    $q.notify({ type: 'negative', message: 'Reprodukcija nije uspjela.' })
+    $q.notify({ type: 'negative', message: 'Reprodukcija nije uspjela. Provjeri postoji li MP3 na music-serviceu.' })
   }
 }
 
