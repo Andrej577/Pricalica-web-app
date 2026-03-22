@@ -14,7 +14,7 @@
           </div>
 
           <div class="row justify-between text-subtitle1 text-weight-bold q-mb-sm">
-            <div>Pocetak</div>
+            <div>Početak</div>
             <div>Kraj</div>
           </div>
 

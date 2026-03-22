@@ -28,7 +28,7 @@
               </div>
 
               <div>
-                <div class="text-subtitle1 text-weight-bold">Zanr</div>
+                <div class="text-subtitle1 text-weight-bold">Žanr</div>
                 <div>{{ knjiga.zanr }}</div>
               </div>
             </div>
@@ -155,6 +155,8 @@ async function getKnjigaDetalji(knjigaId) {
       opis: data.opis ?? '',
       poveznica: data.poveznica ?? '',
     }
+
+    console.log('Knjiga details:', knjiga.value)
   } catch (error) {
     console.error('Failed to fetch book details', error)
     $q.notify({ type: 'negative', message: 'Neuspjelo ucitavanje detalja knjige.' })
