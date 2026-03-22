@@ -119,7 +119,7 @@ function pokreniKnjigu() {
     return
   }
 
-  window.open(knjiga.value.poveznica, '_blank')
+  router.push(`/knjige/${route.params.id}/reprodukcija`)
 }
 
 async function getRecenzije(knjigaId) {
