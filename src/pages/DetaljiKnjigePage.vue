@@ -149,14 +149,12 @@ async function getKnjigaDetalji(knjigaId) {
     const data = res.data ?? {}
 
     knjiga.value = {
-      naslov: data.naslov ?? data.title ?? '',
+      naslov: data.naslov ?? '',
       autor: data.autor ?? '',
       zanr: data.zanr ?? '',
       opis: data.opis ?? '',
       poveznica: data.poveznica ?? '',
     }
-
-    console.log('Knjiga details:', knjiga.value)
   } catch (error) {
     console.error('Failed to fetch book details', error)
     $q.notify({ type: 'negative', message: 'Neuspjelo ucitavanje detalja knjige.' })
