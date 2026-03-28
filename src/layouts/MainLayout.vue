@@ -26,7 +26,7 @@
           <q-item-section>Vaše recenzije</q-item-section>
         </q-item>
 
-        <q-item clickable v-ripple to="/profile">
+        <q-item clickable v-ripple to="/profil/2">
           <q-item-section avatar>
             <q-icon name="person" />
           </q-item-section>
