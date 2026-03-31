@@ -11,7 +11,7 @@
 
       <div class="col-auto">
         <div class="row q-gutter-sm">
-          <q-btn label="View" outline color="primary" :disable="!selected.length" />
+          <q-btn label="Pregledaj" outline color="primary" :disable="!selected.length" />
           <q-btn label="Uredi" outline color="primary" :disable="!selected.length" />
           <q-btn label="Izbriši" outline color="negative" :disable="!selected.length" />
         </div>
