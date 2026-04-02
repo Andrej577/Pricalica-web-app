@@ -65,34 +65,18 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import axios from 'axios'
+import { useQuasar } from 'quasar'
+import { API_BASE_URL } from 'src/config/api'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const $q = useQuasar()
 
 const search = ref('')
-
-const continueListening = ref([
-  { id: 1, title: 'Item 11234' },
-  { id: 2, title: 'Item 2' },
-  { id: 3, title: 'Item 3' },
-  { id: 4, title: 'Item 41231' },
-])
-
-const library = ref([
-  { id: 1, title: 'Book 11122' },
-  { id: 2, title: 'Book 2' },
-  { id: 3, title: 'Book 3' },
-  { id: 4, title: 'Book 4' },
-  { id: 5, title: 'Book 5' },
-  { id: 6, title: 'Book 6' },
-  { id: 7, title: 'Book 7' },
-  { id: 8, title: 'Book 8' },
-  { id: 9, title: 'Book 9' },
-  { id: 10, title: 'Book 10' },
-  { id: 11, title: 'Book 11' },
-  { id: 12, title: 'Book 12' },
-])
+const continueListening = ref([])
+const library = ref([])
 
 const filteredLibrary = computed(() => {
   if (!search.value.trim()) return library.value
@@ -105,6 +89,38 @@ const filteredLibrary = computed(() => {
 function otvoriDetaljeKnjige(id) {
   router.push(`/knjige/${id}`)
 }
+
+async function getSveKnjige() {
+  try {
+    const res = await axios.get(`${API_BASE_URL}/knjige`)
+
+    if (res.status !== 200 || !Array.isArray(res.data)) {
+      throw new Error('Failed to fetch books')
+    }
+
+    const knjige = res.data.map((item) => ({
+      id: item.knjiga_id,
+      title: item.naslov,
+      opis: item.opis,
+      trajanje_min: item.trajanje_min,
+      poveznica: item.poveznica,
+      prosjecna_ocjena: item.prosjecna_ocjena,
+    }))
+
+    library.value = knjige
+    continueListening.value = knjige.slice(0, 4)
+  } catch (error) {
+    console.error('Error fetching books:', error)
+    $q.notify({
+      type: 'negative',
+      message: 'Neuspjelo ucitavanje knjiga.',
+    })
+  }
+}
+
+onMounted(() => {
+  getSveKnjige()
+})
 </script>
 
 <style scoped>
