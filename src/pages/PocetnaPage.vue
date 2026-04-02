@@ -21,7 +21,8 @@
               :key="item.id"
               flat
               bordered
-              class="book-card"
+              class="book-card cursor-pointer"
+              @click="otvoriDetaljeKnjige(item.id)"
             >
               <div class="book-cover-placeholder" />
               <q-card-section class="q-pa-sm">
@@ -41,7 +42,14 @@
 
         <q-card-section>
           <div class="book-grid">
-            <q-card v-for="item in filteredLibrary" :key="item.id" flat bordered class="book-card">
+            <q-card
+              v-for="item in filteredLibrary"
+              :key="item.id"
+              flat
+              bordered
+              class="book-card cursor-pointer"
+              @click="otvoriDetaljeKnjige(item.id)"
+            >
               <div class="book-cover-placeholder" />
               <q-card-section class="q-pa-sm">
                 <div class="text-caption text-center ellipsis">
@@ -58,6 +66,9 @@
 
 <script setup>
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const search = ref('')
 
@@ -90,11 +101,15 @@ const filteredLibrary = computed(() => {
     item.title.toLowerCase().includes(search.value.toLowerCase()),
   )
 })
+
+function otvoriDetaljeKnjige(id) {
+  router.push(`/knjige/${id}`)
+}
 </script>
 
 <style scoped>
 .page-wrapper {
-  max-width: 1100px;
+  width: 100%;
 }
 
 .book-grid {
