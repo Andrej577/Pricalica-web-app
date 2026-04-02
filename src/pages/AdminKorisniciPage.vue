@@ -4,9 +4,6 @@
       <q-card-section class="row items-center justify-between q-col-gutter-md">
         <div class="col-12 col-md">
           <div class="text-h6 text-weight-medium">Upravljanje korisnicima</div>
-          <div class="text-body2 text-grey-7 q-mt-xs">
-            Popis svih korisnika iz baze sa administratorskim akcijama.
-          </div>
         </div>
 
         <div class="col-12 col-md-auto">
