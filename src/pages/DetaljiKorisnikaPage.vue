@@ -1,95 +1,66 @@
 <template>
-  <q-page class="q-pa-md flex flex-center bg-grey-2">
+  <q-page class="q-pa-lg user-page">
     <div class="page-wrapper">
-      <q-card flat bordered class="user-card">
-        <q-card-section class="row items-center justify-between q-pb-sm">
-          <div class="text-h6 text-weight-medium">Uredivanje korisnika</div>
-          <q-btn flat round dense icon="close" @click="idiNatrag" />
-        </q-card-section>
-
-        <q-separator />
-
-        <q-form v-if="!loading" class="q-gutter-md" @submit.prevent="spremiKorisnika">
-          <q-card-section class="q-pt-lg">
-            <div class="row items-center justify-between q-col-gutter-md top-actions">
-              <div class="col-12 col-sm-auto">
-                <q-btn label="Povratak" outline color="primary" @click="idiNatrag" />
-              </div>
-
-              <div class="col-12 col-sm-auto">
-                <q-btn label="Spremi" color="positive" type="submit" />
-              </div>
-            </div>
-
-            <div class="text-caption text-grey-7 text-center q-mt-md">
-              ID korisnika: {{ korisnik.id }}
-            </div>
-
-            <div class="form-grid q-mx-auto q-mt-md">
-              <q-input
-                v-model="korisnik.ime"
-                outlined
-                label="Ime"
-                autocomplete="given-name"
-              />
-
-              <q-input
-                v-model="korisnik.prezime"
-                outlined
-                label="Prezime"
-                autocomplete="family-name"
-              />
-
-              <q-input
-                v-model="korisnik.email"
-                outlined
-                type="email"
-                label="E-mail"
-                autocomplete="email"
-              />
-
-              <q-input
-                v-model="korisnik.lozinka"
-                outlined
-                :type="showPassword ? 'text' : 'password'"
-                label="Lozinka"
-                autocomplete="new-password"
-              >
-                <template #append>
-                  <q-icon
-                    :name="showPassword ? 'visibility_off' : 'visibility'"
-                    class="cursor-pointer"
-                    @click="showPassword = !showPassword"
-                  />
-                </template>
-              </q-input>
-
-              <q-select
-                v-model="korisnik.statusRacuna"
-                outlined
-                emit-value
-                map-options
-                label="Status racuna"
-                :options="statusOpcije"
-              />
-
-              <q-checkbox v-model="korisnik.aktivan" label="Aktivan" disable />
-            </div>
-          </q-card-section>
-
-          <q-separator />
-
-          <q-card-actions align="right" class="q-pa-md">
-            <q-btn color="negative" label="Obrisi racun" @click="obrisiRacun" />
-          </q-card-actions>
-        </q-form>
-
-        <q-card-section v-else class="q-py-xl">
-          <div class="row justify-center">
-            <q-spinner color="primary" size="40px" />
+      <q-form v-if="!loading" class="user-form" @submit.prevent="spremiKorisnika">
+        <div class="top-actions">
+          <q-btn label="Povratak" outline color="primary" @click="idiNatrag" />
+          <div class="text-h6 text-weight-medium page-title">Uredivanje korisnika</div>
+          <div class="action-group">
+            <q-btn color="negative" outline label="Obrisi racun" @click="obrisiRacun" />
+            <q-btn label="Spremi" color="positive" type="submit" />
           </div>
-        </q-card-section>
-      </q-card>
+        </div>
+
+        <div class="form-grid q-mt-xl">
+          <q-input v-model="korisnik.ime" outlined label="Ime" autocomplete="given-name" />
+
+          <q-input
+            v-model="korisnik.prezime"
+            outlined
+            label="Prezime"
+            autocomplete="family-name"
+          />
+
+          <q-input
+            v-model="korisnik.email"
+            outlined
+            type="email"
+            label="E-mail"
+            autocomplete="email"
+          />
+
+          <q-input
+            v-model="korisnik.lozinka"
+            outlined
+            :type="showPassword ? 'text' : 'password'"
+            label="Lozinka"
+            autocomplete="new-password"
+          >
+            <template #append>
+              <q-icon
+                :name="showPassword ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="showPassword = !showPassword"
+              />
+            </template>
+          </q-input>
+
+          <q-select
+            v-model="korisnik.statusRacuna"
+            outlined
+            emit-value
+            map-options
+            label="Status racuna"
+            :options="statusOpcije"
+          />
+
+          <q-checkbox v-model="korisnik.aktivan" label="Aktivan" disable />
+        </div>
+      </q-form>
+
+      <div v-else class="loading-state">
+        <q-spinner color="primary" size="40px" />
+      </div>
     </div>
   </q-page>
 </template>
@@ -253,23 +224,66 @@ function obrisiRacun() {
 <style scoped>
 .page-wrapper {
   width: 100%;
-  max-width: 720px;
-}
-
-.user-card {
-  width: 100%;
+  min-height: 100%;
 }
 
 .form-grid {
   width: 100%;
-  max-width: 420px;
   display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.user-page {
+  min-height: 100%;
+  background: #f5f5f5;
+}
+
+.user-form {
+  width: 100%;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 16px;
+}
+
+.page-title {
+  flex: 1;
+  text-align: center;
+}
+
+.action-group {
+  display: flex;
+  gap: 12px;
+}
+
+.loading-state {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media (max-width: 599px) {
   .top-actions {
-    row-gap: 12px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .page-title {
+    text-align: center;
+  }
+
+  .action-group {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>
