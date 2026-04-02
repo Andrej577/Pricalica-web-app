@@ -136,7 +136,7 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { API_BASE_URL } from 'src/config/api'
-import { clearCurrentUserRole, setCurrentUserRole } from 'src/composables/auth'
+import { clearCurrentUserRole, setCurrentUserId, setCurrentUserRole } from 'src/composables/auth'
 
 const router = useRouter()
 const $q = useQuasar()
@@ -168,12 +168,13 @@ async function submitLogin(form) {
   submittingState.value = true
 
   try {
-    await axios.post(`${API_BASE_URL}/login`, {
+    const response = await axios.post(`${API_BASE_URL}/login`, {
       email: form.email,
       lozinka: form.lozinka,
     })
 
     setCurrentUserRole(isAdminForm ? 'admin' : 'user')
+    setCurrentUserId(response.data?.korisnik_id ?? '')
 
     $q.notify({
       type: 'positive',

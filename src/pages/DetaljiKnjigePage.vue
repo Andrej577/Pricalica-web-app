@@ -41,7 +41,7 @@
 
           <div class="row items-center justify-between q-mb-md">
             <div class="text-subtitle1 text-weight-bold">Recenzije</div>
-            <q-btn label="Dodaj recenziju" outline color="primary" to="/recenzije" />
+            <q-btn label="Dodaj recenziju" outline color="primary" @click="otvoriRecenzijaDialog" />
           </div>
 
           <q-markup-table flat bordered separator="cell">
@@ -68,18 +68,27 @@
               </tr>
             </tbody>
           </q-markup-table>
-        </q-card-section>
-      </q-card>
-    </div>
-  </q-page>
+      </q-card-section>
+    </q-card>
+
+    <review-dialog
+      v-model="showReviewDialog"
+      :books="bookOptions"
+      :initial-review="dialogReview"
+      @save="spremiRecenziju"
+    />
+  </div>
+</q-page>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
 import axios from 'axios'
 import { API_BASE_URL } from 'src/config/api'
+import { getCurrentUserId } from 'src/composables/auth'
+import ReviewDialog from 'src/pages/RecenzijaDialogPage.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -93,6 +102,23 @@ const knjiga = ref({
   poveznica: '',
 })
 const recenzije = ref([])
+const showReviewDialog = ref(false)
+
+const currentUserId = computed(() => Number(getCurrentUserId() ?? 0))
+const currentBookId = computed(() => Number(route.params.id ?? 0))
+const bookOptions = computed(() => [
+  {
+    id: currentBookId.value,
+    naslov: knjiga.value.naslov || `Knjiga #${currentBookId.value}`,
+  },
+])
+const dialogReview = computed(() => ({
+  korisnikId: currentUserId.value || null,
+  knjigaId: currentBookId.value || null,
+  ocjena: 0,
+  tekst: '',
+  omiljena: false,
+}))
 
 onMounted(() => {
   ucitajPodatke()
@@ -120,6 +146,18 @@ function pokreniKnjigu() {
   }
 
   router.push(`/knjige/${route.params.id}/reprodukcija`)
+}
+
+function otvoriRecenzijaDialog() {
+  if (!currentUserId.value) {
+    $q.notify({
+      type: 'warning',
+      message: 'Za dodavanje recenzije potrebno je ponovno se prijaviti.',
+    })
+    return
+  }
+
+  showReviewDialog.value = true
 }
 
 async function getRecenzije(knjigaId) {
@@ -158,6 +196,46 @@ async function getKnjigaDetalji(knjigaId) {
   } catch (error) {
     console.error('Failed to fetch book details', error)
     $q.notify({ type: 'negative', message: 'Neuspjelo ucitavanje detalja knjige.' })
+  }
+}
+
+async function spremiRecenziju(review) {
+  if (!currentUserId.value || !currentBookId.value) {
+    $q.notify({
+      type: 'negative',
+      message: 'Nedostaju podaci za spremanje recenzije.',
+    })
+    return
+  }
+
+  try {
+    const payload = {
+      korisnik_id: currentUserId.value,
+      knjiga_id: currentBookId.value,
+      ocjena: Number(review.ocjena ?? 0),
+      recenzija: review.tekst ?? '',
+      omiljena: Boolean(review.omiljena),
+    }
+
+    const res = await axios.post(`${API_BASE_URL}/interakcije`, payload)
+
+    if (![200, 201].includes(res.status)) {
+      throw new Error('Failed to save review')
+    }
+
+    $q.notify({
+      type: 'positive',
+      message: 'Recenzija je uspjesno dodana.',
+    })
+
+    showReviewDialog.value = false
+    await getRecenzije(currentBookId.value)
+  } catch (error) {
+    console.error('Failed to save review', error)
+    $q.notify({
+      type: 'negative',
+      message: error.response?.data?.error ?? 'Spremanje recenzije nije uspjelo.',
+    })
   }
 }
 </script>
