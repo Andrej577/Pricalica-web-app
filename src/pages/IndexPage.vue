@@ -36,7 +36,7 @@
       </q-card>
 
       <q-card flat bordered>
-        <q-card-section class="text-subtitle1 text-weight-bold"> Biblioteka </q-card-section>
+        <q-card-section class="text-subtitle1 text-weight-bold">Biblioteka</q-card-section>
 
         <q-separator />
 

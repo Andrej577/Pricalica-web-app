@@ -128,7 +128,7 @@ async function ucitajKnjigu() {
     }
   } catch (error) {
     console.error('Failed to fetch book details', error)
-    $q.notify({ type: 'negative', message: 'Neuspjelo ucitavanje knjige.' })
+    $q.notify({ type: 'negative', message: 'Neuspjelo učitavanje knjige.' })
   }
 }
 
@@ -143,7 +143,10 @@ async function pokreni() {
     await audioRef.value.play()
   } catch (error) {
     console.error('Playback failed', error)
-    $q.notify({ type: 'negative', message: 'Reprodukcija nije uspjela. Provjeri postoji li MP3 na music-serviceu.' })
+    $q.notify({
+      type: 'negative',
+      message: 'Reprodukcija nije uspjela. Provjeri postoji li MP3 na music-serviceu.',
+    })
   }
 }
 

@@ -4,9 +4,9 @@
       <q-form v-if="!loading" class="user-form" @submit.prevent="spremiKorisnika">
         <div class="top-actions">
           <q-btn label="Povratak" outline color="primary" @click="idiNatrag" />
-          <div class="text-h6 text-weight-medium page-title">Uredivanje korisnika</div>
+          <div class="text-h6 text-weight-medium page-title">Uređivanje korisnika</div>
           <div class="action-group">
-            <q-btn color="negative" outline label="Obrisi racun" @click="obrisiRacun" />
+            <q-btn color="negative" outline label="Obriši račun" @click="obrisiRacun" />
             <q-btn label="Spremi" color="positive" type="submit" />
           </div>
         </div>
@@ -50,7 +50,7 @@
             outlined
             emit-value
             map-options
-            label="Status racuna"
+            label="Status računa"
             :options="statusOpcije"
           />
 
@@ -150,7 +150,7 @@ async function spremiKorisnika() {
   if (!korisnik.value.id) {
     $q.notify({
       type: 'negative',
-      message: 'Korisnik nije ucitan pa spremanje nije moguce.',
+      message: 'Korisnik nije učitan pa spremanje nije moguće.',
     })
     return
   }
@@ -185,12 +185,12 @@ async function spremiKorisnika() {
 function obrisiRacun() {
   $q.dialog({
     title: 'Potvrda brisanja',
-    message: 'Jeste li sigurni da zelite obrisati ovaj racun?',
+    message: 'Jeste li sigurni da želite obrisati ovaj račun?',
     cancel: true,
     persistent: true,
     ok: {
       color: 'negative',
-      label: 'Obrisi',
+      label: 'Obriši',
     },
   }).onOk(async () => {
     if (!korisnik.value.id) {
@@ -206,7 +206,7 @@ function obrisiRacun() {
 
       $q.notify({
         type: 'warning',
-        message: 'Korisnicki racun je obrisan.',
+        message: 'Korisnički račun je obrisan.',
       })
 
       router.push('/')

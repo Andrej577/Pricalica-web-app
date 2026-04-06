@@ -36,7 +36,7 @@
       </q-card>
 
       <q-card flat bordered>
-        <q-card-section class="text-subtitle1 text-weight-bold"> Biblioteka </q-card-section>
+        <q-card-section class="text-subtitle1 text-weight-bold">Biblioteka</q-card-section>
 
         <q-separator />
 
@@ -113,7 +113,7 @@ async function getSveKnjige() {
     console.error('Error fetching books:', error)
     $q.notify({
       type: 'negative',
-      message: 'Neuspjelo ucitavanje knjiga.',
+      message: 'Neuspjelo učitavanje knjiga.',
     })
   }
 }

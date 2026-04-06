@@ -18,7 +18,7 @@
             />
             <q-btn
               color="negative"
-              label="Izbrisi"
+              label="Izbriši"
               :disable="selected.length !== 1"
               @click="obrisiOdabranuKnjigu"
             />
@@ -71,7 +71,7 @@
               outlined
               emit-value
               map-options
-              label="Zanr"
+              label="Žanr"
               :options="zanrOpcije"
             />
 
@@ -97,7 +97,7 @@
               outlined
               type="number"
               step="0.1"
-              label="Prosjecna ocjena"
+              label="Prosječna ocjena"
             />
             <q-input v-model.trim="bookForm.opis" outlined type="textarea" label="Opis" />
           </q-card-section>
@@ -139,12 +139,12 @@ const statusOpcije = [
 const columns = [
   { name: 'naslov', label: 'Naslov', field: 'naslov', align: 'left', sortable: true },
   { name: 'autor', label: 'Autor', field: 'autorLabel', align: 'left', sortable: true },
-  { name: 'zanr', label: 'Zanr', field: 'zanrLabel', align: 'left', sortable: true },
+  { name: 'zanr', label: 'Žanr', field: 'zanrLabel', align: 'left', sortable: true },
   { name: 'trajanje', label: 'Trajanje', field: 'trajanje_min', align: 'center', sortable: true },
   { name: 'status', label: 'Status', field: 'statusLabel', align: 'left', sortable: true },
   {
     name: 'prosjek',
-    label: 'Prosjecna ocjena',
+    label: 'Prosječna ocjena',
     field: 'prosjecna_ocjena',
     align: 'center',
     sortable: true,
@@ -203,7 +203,7 @@ async function ucitajPodatke() {
     console.error('Failed to fetch admin books data', error)
     $q.notify({
       type: 'negative',
-      message: 'Neuspjelo ucitavanje knjiga.',
+      message: 'Neuspjelo učitavanje knjiga.',
     })
   } finally {
     loading.value = false
@@ -280,7 +280,7 @@ async function spremiKnjigu() {
   if (!bookForm.value.naslov || !bookForm.value.autor_id || !bookForm.value.zanr_id) {
     $q.notify({
       type: 'warning',
-      message: 'Unesite naslov, autora i zanr.',
+      message: 'Unesite naslov, autora i žanr.',
     })
     return
   }
@@ -305,7 +305,7 @@ async function spremiKnjigu() {
 
     $q.notify({
       type: 'positive',
-      message: editingId.value ? 'Knjiga je uspjesno azurirana.' : 'Knjiga je uspjesno dodana.',
+      message: editingId.value ? 'Knjiga je uspješno ažurirana.' : 'Knjiga je uspješno dodana.',
     })
 
     zatvoriDialog()
@@ -328,12 +328,12 @@ function obrisiOdabranuKnjigu() {
 
   $q.dialog({
     title: 'Potvrda brisanja',
-    message: `Zelite li obrisati knjigu ${selectedKnjiga.value.naslov}?`,
+    message: `Želite li obrisati knjigu ${selectedKnjiga.value.naslov}?`,
     cancel: true,
     persistent: true,
     ok: {
       color: 'negative',
-      label: 'Izbrisi',
+      label: 'Izbriši',
     },
   }).onOk(async () => {
     try {

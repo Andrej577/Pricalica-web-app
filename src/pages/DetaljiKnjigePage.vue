@@ -172,7 +172,7 @@ async function getRecenzije(knjigaId) {
   } catch (error) {
     console.error('Failed to fetch reviews', error)
     recenzije.value = []
-    $q.notify({ type: 'negative', message: 'Neuspjelo ucitavanje recenzija.' })
+    $q.notify({ type: 'negative', message: 'Neuspjelo učitavanje recenzija.' })
   }
 }
 
@@ -195,7 +195,7 @@ async function getKnjigaDetalji(knjigaId) {
     }
   } catch (error) {
     console.error('Failed to fetch book details', error)
-    $q.notify({ type: 'negative', message: 'Neuspjelo ucitavanje detalja knjige.' })
+    $q.notify({ type: 'negative', message: 'Neuspjelo učitavanje detalja knjige.' })
   }
 }
 
@@ -225,7 +225,7 @@ async function spremiRecenziju(review) {
 
     $q.notify({
       type: 'positive',
-      message: 'Recenzija je uspjesno dodana.',
+      message: 'Recenzija je uspješno dodana.',
     })
 
     showReviewDialog.value = false

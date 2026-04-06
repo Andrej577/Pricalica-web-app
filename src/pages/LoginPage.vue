@@ -178,7 +178,7 @@ async function submitLogin(form) {
 
     $q.notify({
       type: 'positive',
-      message: 'Prijava uspjesna.',
+      message: 'Prijava uspješna.',
     })
 
     router.push('/pocetna')

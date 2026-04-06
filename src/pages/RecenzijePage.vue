@@ -6,7 +6,7 @@
       </div>
 
       <div class="col text-center">
-        <div class="text-h6">Vase recenzije</div>
+        <div class="text-h6">Vaše recenzije</div>
       </div>
 
       <div class="col-auto">
@@ -206,7 +206,7 @@ async function ucitajPodatke() {
     console.error('Failed to fetch user reviews', error)
     $q.notify({
       type: 'negative',
-      message: 'Neuspjelo ucitavanje recenzija.',
+      message: 'Neuspjelo učitavanje recenzija.',
     })
   } finally {
     loading.value = false
@@ -223,7 +223,7 @@ function mapirajRecenziju(interakcija) {
     naslov: getBookTitle(knjigaId),
     recenzija: interakcija.recenzija ?? '',
     ocjena,
-    utisci: ocjena >= 4 ? 'Odlicno' : ocjena >= 2 ? 'Dobro' : 'Slabo',
+    utisci: ocjena >= 4 ? 'Odlično' : ocjena >= 2 ? 'Dobro' : 'Slabo',
   }
 }
 
@@ -291,8 +291,8 @@ async function spremiRecenziju(review) {
     $q.notify({
       type: 'positive',
       message: editingId.value
-        ? 'Recenzija je uspjesno azurirana.'
-        : 'Recenzija je uspjesno dodana.',
+        ? 'Recenzija je uspješno ažurirana.'
+        : 'Recenzija je uspješno dodana.',
     })
 
     showDialog.value = false

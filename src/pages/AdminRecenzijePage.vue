@@ -18,7 +18,7 @@
             />
             <q-btn
               color="negative"
-              label="Izbrisi"
+              label="Izbriši"
               :disable="selected.length !== 1"
               @click="obrisiOdabranuRecenziju"
             />
@@ -132,7 +132,7 @@ async function ucitajPodatke() {
     console.error('Failed to fetch admin reviews data', error)
     $q.notify({
       type: 'negative',
-      message: 'Neuspjelo ucitavanje recenzija.',
+      message: 'Neuspjelo učitavanje recenzija.',
     })
   } finally {
     loading.value = false
@@ -203,8 +203,8 @@ async function spremiRecenziju(review) {
     $q.notify({
       type: 'positive',
       message: editingId.value
-        ? 'Recenzija je uspjesno azurirana.'
-        : 'Recenzija je uspjesno dodana.',
+        ? 'Recenzija je uspješno ažurirana.'
+        : 'Recenzija je uspješno dodana.',
     })
 
     showDialog.value = false
@@ -228,12 +228,12 @@ function obrisiOdabranuRecenziju() {
 
   $q.dialog({
     title: 'Potvrda brisanja',
-    message: 'Zelite li obrisati odabranu recenziju?',
+    message: 'Želite li obrisati odabranu recenziju?',
     cancel: true,
     persistent: true,
     ok: {
       color: 'negative',
-      label: 'Izbrisi',
+      label: 'Izbriši',
     },
   }).onOk(async () => {
     try {

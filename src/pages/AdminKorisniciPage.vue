@@ -18,7 +18,7 @@
             />
             <q-btn
               color="negative"
-              label="Izbrisi"
+              label="Izbriši"
               :disable="selected.length !== 1"
               @click="obrisiOdabranogKorisnika"
             />
@@ -96,7 +96,7 @@
               outlined
               emit-value
               map-options
-              label="Status racuna"
+              label="Status računa"
               :options="statusOpcije"
             />
           </q-card-section>
@@ -156,7 +156,7 @@ const columns = [
   },
   {
     name: 'statusRacuna',
-    label: 'Status racuna',
+    label: 'Status računa',
     field: 'statusRacunaLabel',
     align: 'left',
     sortable: true,
@@ -222,7 +222,7 @@ async function ucitajKorisnike() {
     console.error('Failed to fetch users', error)
     $q.notify({
       type: 'negative',
-      message: 'Neuspjelo ucitavanje korisnika.',
+      message: 'Neuspjelo učitavanje korisnika.',
     })
   } finally {
     loading.value = false
@@ -265,7 +265,7 @@ async function spremiNovogKorisnika() {
 
     $q.notify({
       type: 'positive',
-      message: 'Korisnik je uspjesno dodan.',
+      message: 'Korisnik je uspješno dodan.',
     })
 
     zatvoriDodavanje()
@@ -296,12 +296,12 @@ function obrisiOdabranogKorisnika() {
 
   $q.dialog({
     title: 'Potvrda brisanja',
-    message: `Zelite li obrisati korisnika ${selectedKorisnik.value.ime} ${selectedKorisnik.value.prezime}?`,
+    message: `Želite li obrisati korisnika ${selectedKorisnik.value.ime} ${selectedKorisnik.value.prezime}?`,
     cancel: true,
     persistent: true,
     ok: {
       color: 'negative',
-      label: 'Izbrisi',
+      label: 'Izbriši',
     },
   }).onOk(async () => {
     try {
