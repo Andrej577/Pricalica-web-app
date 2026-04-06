@@ -311,6 +311,7 @@ function obrisiOdabranogKorisnika() {
         throw new Error('Failed to delete user')
       }
 
+
       $q.notify({
         type: 'warning',
         message: 'Korisnik je obrisan.',
@@ -321,7 +322,7 @@ function obrisiOdabranogKorisnika() {
       console.error('Failed to delete user', error)
       $q.notify({
         type: 'negative',
-        message: 'Brisanje korisnika nije uspjelo.',
+        message: error.response?.data?.error ?? 'Brisanje korisnika nije uspjelo.',
       })
     }
   })

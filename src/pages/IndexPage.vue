@@ -24,7 +24,9 @@
               class="book-card cursor-pointer"
               @click="otvoriDetaljeKnjige(item.id)"
             >
-              <div class="book-cover-placeholder" />
+              <div class="book-cover-placeholder">
+                <q-icon name="menu_book" size="56px" color="grey-5" />
+              </div>
               <q-card-section class="q-pa-sm">
                 <div class="text-caption text-center ellipsis">
                   {{ item.title }}
@@ -50,7 +52,9 @@
               class="book-card cursor-pointer"
               @click="otvoriDetaljeKnjige(item.id)"
             >
-              <div class="book-cover-placeholder" />
+              <div class="book-cover-placeholder">
+                <q-icon name="menu_book" size="56px" color="grey-5" />
+              </div>
               <q-card-section class="q-pa-sm">
                 <div class="text-caption text-center ellipsis">
                   {{ item.title }}
@@ -130,10 +134,10 @@ onMounted(() => {
 
 .book-cover-placeholder {
   height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-bottom: 1px solid #ddd;
-  background:
-    linear-gradient(to top right, transparent 49%, #999 50%, transparent 51%),
-    linear-gradient(to bottom right, transparent 49%, #999 50%, transparent 51%);
-  background-color: #f5f5f5;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
 }
 </style>

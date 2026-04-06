@@ -54,7 +54,6 @@
             :options="statusOpcije"
           />
 
-          <q-checkbox v-model="korisnik.aktivan" label="Aktivan" disable />
         </div>
       </q-form>
 
@@ -91,7 +90,6 @@ const korisnik = ref({
   email: '',
   lozinka: '',
   statusRacuna: 1,
-  aktivan: false,
 })
 
 onMounted(() => {
@@ -142,7 +140,6 @@ function mapirajKorisnika(data) {
     email: data.email ?? '',
     lozinka: data.lozinka_hash ?? '',
     statusRacuna: status,
-    aktivan: status === 1,
   }
 }
 
@@ -156,10 +153,7 @@ async function spremiKorisnika() {
   }
 
   try {
-    const payload = {
-      ...korisnik.value,
-      statusRacuna: korisnik.value.aktivan ? korisnik.value.statusRacuna : 2,
-    }
+    const payload = { ...korisnik.value }
 
     const res = await axios.put(`${API_BASE_URL}/korisnici/${korisnik.value.id}`, payload)
 

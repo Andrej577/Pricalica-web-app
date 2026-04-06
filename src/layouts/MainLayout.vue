@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title> Pocetna </q-toolbar-title>
+        <q-toolbar-title> Početna </q-toolbar-title>
       </q-toolbar>
     </q-header>
 
@@ -17,17 +17,17 @@
             <q-item-section avatar>
               <q-icon name="home" />
             </q-item-section>
-            <q-item-section>Pocetna</q-item-section>
+            <q-item-section>Početna</q-item-section>
           </q-item>
 
           <q-item clickable v-ripple to="/recenzije">
             <q-item-section avatar>
               <q-icon name="rate_review" />
             </q-item-section>
-            <q-item-section>Vase recenzije</q-item-section>
+            <q-item-section>Vaše recenzije</q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="/profil/2">
+          <q-item clickable v-ripple :to="userProfileRoute">
             <q-item-section avatar>
               <q-icon name="person" />
             </q-item-section>
@@ -73,11 +73,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useAuthState } from 'src/composables/auth'
 
 const leftDrawerOpen = ref(true)
-const { isAdmin } = useAuthState()
+const { currentUserId, isAdmin } = useAuthState()
+const userProfileRoute = computed(() => `/profil/${currentUserId.value || ''}`)
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
