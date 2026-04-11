@@ -16,7 +16,7 @@
         <q-separator />
 
         <q-card-section>
-          <div class="text-h5 text-weight-bold text-center q-mb-lg">
+          <div class="text-h5 text-weight-bold text-center q-mb-lg" data-testid="book-title">
             {{ knjiga.naslov }}
           </div>
 

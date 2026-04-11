@@ -17,7 +17,7 @@
         <q-card-section>
           <div class="book-grid">
             <q-card
-              v-for="item in continueListening"
+              v-for="item in filteredContinueListening"
               :key="item.id"
               flat
               bordered
@@ -81,6 +81,14 @@ const $q = useQuasar()
 const search = ref('')
 const continueListening = ref([])
 const library = ref([])
+
+const filteredContinueListening = computed(() => {
+  if (!search.value.trim()) return continueListening.value
+
+  return continueListening.value.filter((item) =>
+    item.title.toLowerCase().includes(search.value.toLowerCase()),
+  )
+})
 
 const filteredLibrary = computed(() => {
   if (!search.value.trim()) return library.value

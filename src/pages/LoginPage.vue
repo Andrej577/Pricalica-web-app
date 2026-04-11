@@ -12,7 +12,11 @@
 
       <q-card-section class="q-pt-lg">
         <div class="login-grid">
-          <q-form class="credential-form" @submit.prevent="submitLogin(adminForm)">
+          <q-form
+            class="credential-form"
+            data-testid="admin-login-form"
+            @submit.prevent="submitLogin(adminForm)"
+          >
             <div class="text-subtitle1 text-weight-medium">Administrator</div>
             <div class="text-caption text-grey-7 q-mb-md">
               Zadani račun iz baze za administraciju sustava
@@ -24,6 +28,7 @@
               type="email"
               label="E-mail"
               autocomplete="email"
+              data-testid="admin-email-input"
               lazy-rules
               :rules="[(val) => !!val || 'Unesite e-mail']"
             >
@@ -38,6 +43,7 @@
               :type="showAdminPassword ? 'text' : 'password'"
               label="Lozinka"
               autocomplete="current-password"
+              data-testid="admin-password-input"
               lazy-rules
               :rules="[(val) => !!val || 'Unesite lozinku']"
             >
@@ -59,11 +65,16 @@
               color="primary"
               type="submit"
               class="full-width"
+              data-testid="admin-login-button"
               :loading="submittingAdmin"
             />
           </q-form>
 
-          <q-form class="credential-form" @submit.prevent="submitLogin(userForm)">
+          <q-form
+            class="credential-form"
+            data-testid="user-login-form"
+            @submit.prevent="submitLogin(userForm)"
+          >
             <div class="text-subtitle1 text-weight-medium">Korisnik</div>
             <div class="text-caption text-grey-7 q-mb-md">
               Zadani korisnički račun iz baze za pregled aplikacije
@@ -75,6 +86,7 @@
               type="email"
               label="E-mail"
               autocomplete="email"
+              data-testid="user-email-input"
               lazy-rules
               :rules="[(val) => !!val || 'Unesite e-mail']"
             >
@@ -89,6 +101,7 @@
               :type="showUserPassword ? 'text' : 'password'"
               label="Lozinka"
               autocomplete="current-password"
+              data-testid="user-password-input"
               lazy-rules
               :rules="[(val) => !!val || 'Unesite lozinku']"
             >
@@ -111,6 +124,7 @@
               text-color="dark"
               type="submit"
               class="full-width"
+              data-testid="user-login-button"
               :loading="submittingUser"
             />
           </q-form>

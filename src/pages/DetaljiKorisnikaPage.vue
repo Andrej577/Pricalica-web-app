@@ -4,10 +4,18 @@
       <q-form v-if="!loading" class="user-form" @submit.prevent="spremiKorisnika">
         <div class="top-actions">
           <q-btn label="Povratak" outline color="primary" @click="idiNatrag" />
-          <div class="text-h6 text-weight-medium page-title">Uređivanje korisnika</div>
+          <div class="text-h6 text-weight-medium page-title" data-testid="user-edit-title">
+            Uređivanje korisnika
+          </div>
           <div class="action-group">
-            <q-btn color="negative" outline label="Obriši račun" @click="obrisiRacun" />
-            <q-btn label="Spremi" color="positive" type="submit" />
+            <q-btn
+              color="negative"
+              outline
+              label="Obriši račun"
+              data-testid="delete-account-button"
+              @click="obrisiRacun"
+            />
+            <q-btn label="Spremi" color="positive" type="submit" data-testid="save-user-button" />
           </div>
         </div>
 

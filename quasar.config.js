@@ -58,6 +58,11 @@ export default defineConfig((ctx) => {
       // viteVuePluginOptions: {},
       extendViteConf(viteConf) {
         viteConf.server ??= {}
+        viteConf.server.allowedHosts = [
+          'host.docker.internal',
+          'localhost',
+          '127.0.0.1',
+        ]
         viteConf.server.watch = {
           usePolling: true,
           interval: 100,

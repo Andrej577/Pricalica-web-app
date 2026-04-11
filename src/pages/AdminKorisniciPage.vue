@@ -216,7 +216,11 @@ async function ucitajKorisnike() {
       throw new Error('Failed to fetch users')
     }
 
-    rows.value = Array.isArray(res.data) ? res.data.map(mapirajKorisnika) : []
+    rows.value = Array.isArray(res.data)
+      ? res.data
+          .map(mapirajKorisnika)
+          .sort((a, b) => Number(b.id ?? 0) - Number(a.id ?? 0))
+      : []
     selected.value = []
   } catch (error) {
     console.error('Failed to fetch users', error)
