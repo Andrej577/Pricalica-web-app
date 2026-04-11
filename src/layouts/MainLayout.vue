@@ -58,6 +58,13 @@
             </q-item-section>
             <q-item-section>Upravljanje recenzijama</q-item-section>
           </q-item>
+
+          <q-item clickable v-ripple to="/admin/statistika">
+            <q-item-section avatar>
+              <q-icon name="insights" />
+            </q-item-section>
+            <q-item-section>Statistika</q-item-section>
+          </q-item>
         </q-list>
       </div>
     </q-drawer>

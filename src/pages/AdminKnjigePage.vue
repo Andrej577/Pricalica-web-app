@@ -8,7 +8,6 @@
 
         <div class="col-12 col-md-auto">
           <div class="row q-gutter-sm justify-end">
-            <q-btn color="primary" label="Dodaj" @click="otvoriDodavanje" />
             <q-btn
               outline
               color="primary"
@@ -47,7 +46,7 @@
     <q-dialog v-model="showDialog" persistent>
       <q-card class="book-dialog">
         <q-card-section class="row items-center justify-between">
-          <div class="text-h6">{{ editingId ? 'Uredi knjigu' : 'Dodaj knjigu' }}</div>
+          <div class="text-h6">Uredi knjigu</div>
           <q-btn flat round dense icon="close" @click="zatvoriDialog" />
         </q-card-section>
 
@@ -246,12 +245,6 @@ function getStatusLabel(statusId) {
   return statusOpcije.find((opcija) => opcija.value === Number(statusId))?.label ?? 'Nepoznato'
 }
 
-function otvoriDodavanje() {
-  editingId.value = null
-  bookForm.value = getInitialBookForm()
-  showDialog.value = true
-}
-
 function otvoriUredivanje() {
   if (!selectedKnjiga.value) {
     return
@@ -295,11 +288,13 @@ async function spremiKnjigu() {
       prosjecna_ocjena: Number(bookForm.value.prosjecna_ocjena ?? 0),
     }
 
-    const res = editingId.value
-      ? await axios.put(`${API_BASE_URL}/knjige/${editingId.value}`, payload)
-      : await axios.post(`${API_BASE_URL}/knjige`, payload)
+    if (!editingId.value) {
+      throw new Error('Editing book is required')
+    }
 
-    if (![200, 201].includes(res.status)) {
+    const res = await axios.put(`${API_BASE_URL}/knjige/${editingId.value}`, payload)
+
+    if (res.status !== 200) {
       throw new Error('Failed to save book')
     }
 

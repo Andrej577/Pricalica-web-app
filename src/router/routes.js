@@ -12,6 +12,7 @@ const routes = [
       { path: 'admin/korisnici', component: () => import('pages/AdminKorisniciPage.vue'), meta: { requiresAdmin: true },},
       { path: 'admin/knjige', component: () => import('pages/AdminKnjigePage.vue'), meta: { requiresAdmin: true },},
       { path: 'admin/recenzije', component: () => import('pages/AdminRecenzijePage.vue'), meta: { requiresAdmin: true },},
+      { path: 'admin/statistika', component: () => import('pages/AdminStatistikaPage.vue'), meta: { requiresAdmin: true },},
       { path: 'login', component: () => import('pages/LoginPage.vue') },
     ],
   },
