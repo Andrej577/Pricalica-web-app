@@ -5,6 +5,15 @@
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title> Početna </q-toolbar-title>
+
+        <q-btn
+          flat
+          no-caps
+          icon="logout"
+          label="Odjava"
+          data-testid="logout-button"
+          @click="logout"
+        />
       </q-toolbar>
     </q-header>
 
@@ -66,6 +75,15 @@
             <q-item-section>Statistika</q-item-section>
           </q-item>
         </q-list>
+
+        <q-list padding class="q-pt-none">
+          <q-item clickable v-ripple data-testid="drawer-logout-button" @click="logout">
+            <q-item-section avatar>
+              <q-icon name="logout" />
+            </q-item-section>
+            <q-item-section>Odjava</q-item-section>
+          </q-item>
+        </q-list>
       </div>
     </q-drawer>
 
@@ -81,16 +99,24 @@
 
 <script setup>
 import { computed, ref } from 'vue'
-import { useAuthState } from 'src/composables/auth'
+import { useRouter } from 'vue-router'
+import { clearCurrentUserRole, useAuthState } from 'src/composables/auth'
 
 const leftDrawerOpen = ref(true)
+const router = useRouter()
 const { currentUserId, isAdmin } = useAuthState()
 const userProfileRoute = computed(() => `/profil/${currentUserId.value || ''}`)
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
+
+async function logout() {
+  clearCurrentUserRole()
+  await router.push('/login')
+}
 </script>
+
 <style scoped>
 .page-enter-active,
 .page-leave-active {
@@ -105,5 +131,9 @@ function toggleLeftDrawer() {
 .page-leave-to {
   opacity: 0;
   transform: translateX(-20px);
+}
+
+[data-testid='logout-button'] {
+  margin-left: 12px;
 }
 </style>

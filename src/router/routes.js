@@ -1,9 +1,18 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/AuthLayout.vue'),
+    meta: { guestOnly: true },
     children: [
       { path: '', component: () => import('pages/LoginPage.vue') },
+      { path: 'login', component: () => import('pages/LoginPage.vue') },
+    ],
+  },
+  {
+    path: '/',
+    component: () => import('layouts/MainLayout.vue'),
+    meta: { requiresAuth: true },
+    children: [
       { path: 'pocetna', component: () => import('pages/PocetnaPage.vue') },
       { path: 'recenzije', component: () => import('pages/RecenzijePage.vue') },
       { path: 'knjige/:id', component: () => import('pages/DetaljiKnjigePage.vue') },
@@ -13,7 +22,6 @@ const routes = [
       { path: 'admin/knjige', component: () => import('pages/AdminKnjigePage.vue'), meta: { requiresAdmin: true },},
       { path: 'admin/recenzije', component: () => import('pages/AdminRecenzijePage.vue'), meta: { requiresAdmin: true },},
       { path: 'admin/statistika', component: () => import('pages/AdminStatistikaPage.vue'), meta: { requiresAdmin: true },},
-      { path: 'login', component: () => import('pages/LoginPage.vue') },
     ],
   },
 

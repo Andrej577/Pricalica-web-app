@@ -6,7 +6,7 @@ import {
   createWebHashHistory,
 } from 'vue-router'
 import routes from './routes'
-import { getCurrentUserRole } from 'src/composables/auth'
+import { getCurrentUserRole, isAuthenticated } from 'src/composables/auth'
 
 /*
  * If not building with SSR mode, you can
@@ -35,6 +35,14 @@ export default defineRouter(function (/* { store, ssrContext } */) {
   })
 
   Router.beforeEach((to) => {
+    if (to.meta.requiresAuth && !isAuthenticated()) {
+      return '/login'
+    }
+
+    if (to.meta.guestOnly && isAuthenticated()) {
+      return '/pocetna'
+    }
+
     if (to.meta.requiresAdmin && getCurrentUserRole() !== 'admin') {
       return '/pocetna'
     }

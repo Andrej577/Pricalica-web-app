@@ -1,145 +1,60 @@
 <template>
-  <q-page class="q-pa-md flex flex-center bg-grey-2">
-    <q-card flat bordered class="login-card">
-      <q-card-section class="text-center q-pb-sm">
-        <div class="text-h5 text-weight-medium">Prijava</div>
-        <div class="text-caption text-grey-7 q-mt-sm">
-          Odaberite unaprijed pripremljenu prijavu za administratora ili korisnika
-        </div>
+  <q-page class="auth-page flex flex-center q-pa-md">
+    <q-card flat class="auth-card">
+      <q-card-section class="q-pb-none">
+        <div class="text-h5 text-weight-medium">Dobrodošli natrag</div>
       </q-card-section>
 
-      <q-separator />
-
-      <q-card-section class="q-pt-lg">
-        <div class="login-grid">
-          <q-form
-            class="credential-form"
-            data-testid="admin-login-form"
-            @submit.prevent="submitLogin(adminForm)"
+      <q-card-section>
+        <q-form class="auth-form" data-testid="login-form" @submit.prevent="submitLogin">
+          <q-input
+            v-model.trim="loginForm.email"
+            outlined
+            type="email"
+            label="E-mail"
+            autocomplete="email"
+            data-testid="login-email-input"
+            lazy-rules
+            :rules="[(val) => !!val || 'Unesite e-mail']"
           >
-            <div class="text-subtitle1 text-weight-medium">Administrator</div>
-            <div class="text-caption text-grey-7 q-mb-md">
-              Zadani račun iz baze za administraciju sustava
-            </div>
+            <template #prepend>
+              <q-icon name="mail" />
+            </template>
+          </q-input>
 
-            <q-input
-              v-model.trim="adminForm.email"
-              outlined
-              type="email"
-              label="E-mail"
-              autocomplete="email"
-              data-testid="admin-email-input"
-              lazy-rules
-              :rules="[(val) => !!val || 'Unesite e-mail']"
-            >
-              <template #prepend>
-                <q-icon name="mail" />
-              </template>
-            </q-input>
-
-            <q-input
-              v-model="adminForm.lozinka"
-              outlined
-              :type="showAdminPassword ? 'text' : 'password'"
-              label="Lozinka"
-              autocomplete="current-password"
-              data-testid="admin-password-input"
-              lazy-rules
-              :rules="[(val) => !!val || 'Unesite lozinku']"
-            >
-              <template #prepend>
-                <q-icon name="lock" />
-              </template>
-
-              <template #append>
-                <q-icon
-                  :name="showAdminPassword ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="showAdminPassword = !showAdminPassword"
-                />
-              </template>
-            </q-input>
-
-            <q-btn
-              label="Prijavi administratora"
-              color="primary"
-              type="submit"
-              class="full-width"
-              data-testid="admin-login-button"
-              :loading="submittingAdmin"
-            />
-          </q-form>
-
-          <q-form
-            class="credential-form"
-            data-testid="user-login-form"
-            @submit.prevent="submitLogin(userForm)"
+          <q-input
+            v-model="loginForm.lozinka"
+            outlined
+            :type="showLoginPassword ? 'text' : 'password'"
+            label="Lozinka"
+            autocomplete="current-password"
+            data-testid="login-password-input"
+            lazy-rules
+            :rules="[(val) => !!val || 'Unesite lozinku']"
           >
-            <div class="text-subtitle1 text-weight-medium">Korisnik</div>
-            <div class="text-caption text-grey-7 q-mb-md">
-              Zadani korisnički račun iz baze za pregled aplikacije
-            </div>
+            <template #prepend>
+              <q-icon name="lock" />
+            </template>
 
-            <q-input
-              v-model.trim="userForm.email"
-              outlined
-              type="email"
-              label="E-mail"
-              autocomplete="email"
-              data-testid="user-email-input"
-              lazy-rules
-              :rules="[(val) => !!val || 'Unesite e-mail']"
-            >
-              <template #prepend>
-                <q-icon name="mail" />
-              </template>
-            </q-input>
+            <template #append>
+              <q-icon
+                :name="showLoginPassword ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="showLoginPassword = !showLoginPassword"
+              />
+            </template>
+          </q-input>
 
-            <q-input
-              v-model="userForm.lozinka"
-              outlined
-              :type="showUserPassword ? 'text' : 'password'"
-              label="Lozinka"
-              autocomplete="current-password"
-              data-testid="user-password-input"
-              lazy-rules
-              :rules="[(val) => !!val || 'Unesite lozinku']"
-            >
-              <template #prepend>
-                <q-icon name="lock" />
-              </template>
-
-              <template #append>
-                <q-icon
-                  :name="showUserPassword ? 'visibility_off' : 'visibility'"
-                  class="cursor-pointer"
-                  @click="showUserPassword = !showUserPassword"
-                />
-              </template>
-            </q-input>
-
-            <q-btn
-              label="Prijavi korisnika"
-              color="secondary"
-              text-color="dark"
-              type="submit"
-              class="full-width"
-              data-testid="user-login-button"
-              :loading="submittingUser"
-            />
-          </q-form>
-        </div>
+          <q-btn
+            label="Prijavi se"
+            color="primary"
+            type="submit"
+            class="full-width"
+            data-testid="login-button"
+            :loading="submittingLogin"
+          />
+        </q-form>
       </q-card-section>
-
-      <q-card-actions align="right" class="q-px-md q-pb-md">
-        <q-btn
-          label="Odustani"
-          flat
-          color="grey-8"
-          :disable="submittingAdmin || submittingUser"
-          @click="odustani"
-        />
-      </q-card-actions>
     </q-card>
   </q-page>
 </template>
@@ -152,24 +67,35 @@ import { useQuasar } from 'quasar'
 import { API_BASE_URL } from 'src/config/api'
 import { clearCurrentUserRole, setCurrentUserId, setCurrentUserRole } from 'src/composables/auth'
 
+const ADMIN_EMAIL = 'maja.peric@example.com'
+
 const router = useRouter()
 const $q = useQuasar()
 
-const showAdminPassword = ref(false)
-const showUserPassword = ref(false)
-const submittingAdmin = ref(false)
-const submittingUser = ref(false)
-const adminForm = reactive({
-  email: 'maja.peric@example.com',
-  lozinka: 'Maja*Secure5',
-})
-const userForm = reactive({
-  email: 'sara.juric@example.com',
-  lozinka: 'SaraLove44',
+const showLoginPassword = ref(false)
+const submittingLogin = ref(false)
+
+const loginForm = reactive({
+  email: '',
+  lozinka: '',
 })
 
-async function submitLogin(form) {
-  if (!form.email || !form.lozinka) {
+function resetForm() {
+  clearCurrentUserRole()
+  loginForm.email = ''
+  loginForm.lozinka = ''
+}
+
+function resolveUserRole(responseRole, email) {
+  if (responseRole === 'admin' || responseRole === 'user') {
+    return responseRole
+  }
+
+  return email.trim().toLowerCase() === ADMIN_EMAIL ? 'admin' : 'user'
+}
+
+async function submitLogin() {
+  if (!loginForm.email || !loginForm.lozinka) {
     $q.notify({
       type: 'warning',
       message: 'Unesite e-mail i lozinku.',
@@ -177,17 +103,18 @@ async function submitLogin(form) {
     return
   }
 
-  const isAdminForm = form === adminForm
-  const submittingState = isAdminForm ? submittingAdmin : submittingUser
-  submittingState.value = true
+  submittingLogin.value = true
 
   try {
     const response = await axios.post(`${API_BASE_URL}/login`, {
-      email: form.email,
-      lozinka: form.lozinka,
+      email: loginForm.email,
+      lozinka: loginForm.lozinka,
     })
 
-    setCurrentUserRole(isAdminForm ? 'admin' : 'user')
+    const resolvedRole = resolveUserRole(response.data?.uloga, loginForm.email)
+    const targetRoute = resolvedRole === 'admin' ? '/admin/korisnici' : '/pocetna'
+
+    setCurrentUserRole(resolvedRole)
     setCurrentUserId(response.data?.korisnik_id ?? '')
 
     $q.notify({
@@ -195,7 +122,7 @@ async function submitLogin(form) {
       message: 'Prijava uspješna.',
     })
 
-    router.push('/pocetna')
+    await router.push(targetRoute)
   } catch (error) {
     const message = error.response?.data?.error ?? 'Prijava nije uspjela.'
 
@@ -204,45 +131,32 @@ async function submitLogin(form) {
       message,
     })
   } finally {
-    submittingState.value = false
+    submittingLogin.value = false
   }
 }
 
-function odustani() {
-  clearCurrentUserRole()
-  adminForm.email = 'maja.peric@example.com'
-  adminForm.lozinka = 'Maja*Secure5'
-  userForm.email = 'sara.juric@example.com'
-  userForm.lozinka = 'SaraLove44'
-  router.push('/')
-}
+resetForm()
 </script>
 
 <style scoped>
-.login-card {
-  width: 100%;
-  max-width: 920px;
+.auth-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(38, 90, 142, 0.18), transparent 34%),
+    linear-gradient(135deg, #f7efe4 0%, #f3f6fb 48%, #e5eef5 100%);
 }
 
-.login-grid {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.auth-card {
+  width: min(100%, 460px);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 24px 60px rgba(23, 50, 77, 0.15);
+  overflow: hidden;
 }
 
-.credential-form {
-  padding: 20px;
-  border: 1px solid #e0e0e0;
-  border-radius: 16px;
-  background: white;
+.auth-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-
-@media (max-width: 700px) {
-  .login-grid {
-    grid-template-columns: 1fr;
-  }
 }
 </style>

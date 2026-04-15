@@ -12,11 +12,13 @@ const currentUserId = ref(initialUserId)
 
 export function useAuthState() {
   const isAdmin = computed(() => currentUserRole.value === 'admin')
+  const isAuthenticated = computed(() => Boolean(currentUserRole.value))
 
   return {
     currentUserRole,
     currentUserId,
     isAdmin,
+    isAuthenticated,
   }
 }
 
@@ -56,4 +58,8 @@ export function setCurrentUserId(userId) {
 
 export function getCurrentUserId() {
   return currentUserId.value
+}
+
+export function isAuthenticated() {
+  return Boolean(currentUserRole.value)
 }

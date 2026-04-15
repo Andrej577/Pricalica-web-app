@@ -41,3 +41,9 @@ docker compose down
 Docker setup koristi bind mount na projekt direktorij. Zbog toga se svaka promjena u lokalnom source kodu automatski reflektira unutar containera, a aplikacija prikazuje promjene bez potrebe za ručnim restartanjem cijelog Docker okruženja.
 
 Ako je uključen Quasar/Vite hot reload, promjene će biti vidljive odmah nakon spremanja datoteka.
+## Zadani testni korisnici
+
+Za prijavu u aplikaciju dostupni su sljedeci racuni iz pocetne baze:
+
+- `admin`: `maja.peric@example.com` / `Maja*Secure5`
+- `user`: `sara.juric@example.com` / `SaraLove44`
